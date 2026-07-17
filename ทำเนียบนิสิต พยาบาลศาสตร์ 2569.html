@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ทำเนียบนิสิต คณะพยาบาลศาสตร์ ชั้นปีที่ 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12302c;
+    --teal-deep:#0e3d38;
+    --teal:#155e54;
+    --teal-soft:#e5f1ee;
+    --paper:#f6f8f7;
+    --card:#ffffff;
+    --line:#d9e4e1;
+    --coral:#e2694f;
+    --coral-soft:#fbe7e1;
+    --muted:#5f7873;
+    --shadow: 0 1px 2px rgba(14,61,56,.06), 0 8px 24px -12px rgba(14,61,56,.18);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(14,61,56,.06) 1px, transparent 0);
+    background-size: 22px 22px;
+    color:var(--ink);
+    font-family:'IBM Plex Sans Thai', sans-serif;
+    min-height:100vh;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:36px 20px 80px;}
+
+  /* header */
+  header{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    margin-bottom:28px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:22px;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--coral);
+    font-weight:600;
+  }
+  h1{
+    font-family:'Noto Serif Thai', serif;
+    font-weight:700;
+    font-size:clamp(26px,4vw,38px);
+    margin:2px 0 4px;
+    color:var(--teal-deep);
+    line-height:1.25;
+  }
+  .sub{color:var(--muted);font-size:14.5px;}
+
+  /* controls */
+  .controls{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-bottom:22px;
+    align-items:center;
+  }
+  .search-box{
+    position:relative;
+    flex:1 1 280px;
+  }
+  .search-box input{
+    width:100%;
+    padding:12px 16px 12px 40px;
+    border-radius:10px;
+    border:1.5px solid var(--line);
+    background:var(--card);
+    font-family:inherit;
+    font-size:15px;
+    color:var(--ink);
+    outline:none;
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  .search-box input:focus{
+    border-color:var(--teal);
+    box-shadow:0 0 0 3px rgba(21,94,84,.12);
+  }
+  .search-box svg{
+    position:absolute;left:13px;top:50%;transform:translateY(-50%);
+    width:16px;height:16px;color:var(--muted);
+  }
+  .chip-group{display:flex;gap:8px;flex-wrap:wrap;}
+  .chip{
+    font-family:'IBM Plex Sans Thai', sans-serif;
+    font-size:13.5px;
+    font-weight:500;
+    padding:9px 14px;
+    border-radius:999px;
+    border:1.5px solid var(--line);
+    background:var(--card);
+    color:var(--teal-deep);
+    cursor:pointer;
+    user-select:none;
+    transition:all .15s ease;
+    white-space:nowrap;
+  }
+  .chip:hover{border-color:var(--teal);}
+  .chip.active{
+    background:var(--teal-deep);
+    border-color:var(--teal-deep);
+    color:#fff;
+  }
+  .count-line{
+    font-size:13px;color:var(--muted);margin-bottom:14px;
+    font-family:'JetBrains Mono', monospace;
+  }
+
+  /* grid */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(230px,1fr));
+    gap:14px;
+  }
+  .card{
+    position:relative;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:16px 16px 14px;
+    cursor:pointer;
+    box-shadow:var(--shadow);
+    transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    overflow:hidden;
+  }
+  .card:hover{
+    transform:translateY(-2px);
+    border-color:var(--teal);
+  }
+  .card.has-role::before{
+    content:"";
+    position:absolute;
+    top:0;left:0;
+    width:0;height:0;
+    border-style:solid;
+    border-width:0 34px 34px 0;
+    border-color:transparent var(--coral) transparent transparent;
+  }
+  .idx{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11.5px;
+    color:var(--muted);
+    letter-spacing:.04em;
+  }
+  .card h3{
+    font-family:'Noto Serif Thai', serif;
+    font-size:16.5px;
+    font-weight:600;
+    margin:4px 0 2px;
+    color:var(--teal-deep);
+    line-height:1.35;
+  }
+  .nickname{
+    font-size:13px;
+    color:var(--coral);
+    font-weight:600;
+    margin-bottom:8px;
+  }
+  .card .meta{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:10px;
+    padding-top:10px;
+    border-top:1px dashed var(--line);
+  }
+  .sid{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--muted);
+  }
+  .gender-dot{
+    width:8px;height:8px;border-radius:50%;
+  }
+  .gender-dot.M{background:#3f7cac;}
+  .gender-dot.F{background:#e2694f;}
+
+  .empty{
+    text-align:center;
+    padding:60px 20px;
+    color:var(--muted);
+    font-size:14.5px;
+  }
+
+  /* modal */
+  .overlay{
+    position:fixed;inset:0;
+    background:rgba(14,30,28,.45);
+    backdrop-filter:blur(2px);
+    display:none;
+    align-items:center;justify-content:center;
+    padding:20px;
+    z-index:50;
+  }
+  .overlay.open{display:flex;}
+  .modal{
+    background:var(--card);
+    border-radius:16px;
+    max-width:420px;width:100%;
+    padding:28px 26px 24px;
+    position:relative;
+    box-shadow:0 24px 60px -12px rgba(14,61,56,.35);
+    animation:pop .18s ease;
+  }
+  @keyframes pop{from{opacity:0;transform:translateY(6px) scale(.98);}to{opacity:1;transform:none;}}
+  .modal .close{
+    position:absolute;top:16px;right:16px;
+    background:none;border:none;cursor:pointer;
+    color:var(--muted);
+    width:28px;height:28px;
+    display:flex;align-items:center;justify-content:center;
+    border-radius:50%;
+    transition:background .15s ease;
+  }
+  .modal .close:hover{background:var(--teal-soft);}
+  .modal .idx{display:block;margin-bottom:6px;}
+  .modal h2{
+    font-family:'Noto Serif Thai', serif;
+    font-size:22px;
+    color:var(--teal-deep);
+    margin:0 0 2px;
+  }
+  .modal .m-nick{color:var(--coral);font-weight:600;font-size:14.5px;margin-bottom:18px;}
+  .modal .row{
+    display:flex;
+    justify-content:space-between;
+    padding:10px 0;
+    border-bottom:1px solid var(--line);
+    font-size:14px;
+    gap:16px;
+  }
+  .modal .row:last-child{border-bottom:none;}
+  .modal .row .label{color:var(--muted);flex-shrink:0;}
+  .modal .row .value{text-align:right;font-weight:500;}
+  .role-badge{
+    display:inline-block;
+    margin-top:14px;
+    background:var(--coral-soft);
+    color:var(--coral);
+    font-size:13px;
+    font-weight:600;
+    padding:8px 12px;
+    border-radius:8px;
+    line-height:1.4;
+  }
+  footer{
+    text-align:center;
+    color:var(--muted);
+    font-size:12.5px;
+    margin-top:50px;
+    font-family:'JetBrains Mono', monospace;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Class Directory · ปีการศึกษา 2569</span>
+    <h1>ทำเนียบนิสิตคณะพยาบาลศาสตร์ ชั้นปีที่ 1</h1>
+    <p class="sub">รายชื่อนิสิต 61 คน — ค้นหาและกรองข้อมูลได้ด้านล่าง</p>
+  </header>
+
+  <div class="controls">
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="searchInput" type="text" placeholder="ค้นหาชื่อ นามสกุล ชื่อเล่น หรือรหัสนิสิต...">
+    </div>
+  </div>
+  <div class="controls">
+    <div class="chip-group" id="genderChips">
+      <button class="chip active" data-gender="all">ทั้งหมด</button>
+      <button class="chip" data-gender="F">หญิง</button>
+      <button class="chip" data-gender="M">ชาย</button>
+    </div>
+    <div class="chip-group" id="roleChips">
+      <button class="chip active" data-role="all">ทุกคน</button>
+      <button class="chip" data-role="has">มีตำแหน่ง</button>
+      <button class="chip" data-role="none">ไม่มีตำแหน่ง</button>
+    </div>
+  </div>
+
+  <p class="count-line" id="countLine"></p>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="emptyState" style="display:none;">ไม่พบรายชื่อที่ตรงกับคำค้นหา</div>
+
+  <footer>คณะพยาบาลศาสตร์ · ปีการศึกษา 2569</footer>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <button class="close" id="closeModal">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <span class="idx" id="mIdx"></span>
+    <h2 id="mName"></h2>
+    <div class="m-nick" id="mNick"></div>
+    <div class="row"><span class="label">รหัสนิสิต</span><span class="value" id="mSid"></span></div>
+    <div class="row"><span class="label">เพศ</span><span class="value" id="mGender"></span></div>
+    <div id="mRoleWrap"></div>
+  </div>
+</div>
+
+<script>
+const students = [
+{no:1,sid:"6911700019",prefix:"นางสาว",first:"กฤตญาพัฒน์",last:"ตรีกาญจนวัฒนา",nick:"ผิงผิง",gender:"F",role:"นิสิตผู้ประสานงานรายวิชา ภาษาอังกฤษเพื่อโอกาสในการทำงาน"},
+{no:2,sid:"6911700027",prefix:"นางสาว",first:"กันยากร",last:"ปิยะทัพภ์",nick:"มะนาว",gender:"F",role:null},
+{no:3,sid:"6911700035",prefix:"นางสาว",first:"กุลธิดา",last:"รัตนานุกูล",nick:"ดัชมิลล์",gender:"F",role:"นิสิตผู้ประสานงานรายวิชา ระบาดวิทยา"},
+{no:4,sid:"6911700043",prefix:"นางสาว",first:"ชฎาพร",last:"พร้อมสุข",nick:"วิว",gender:"F",role:null},
+{no:5,sid:"6911700051",prefix:"นางสาว",first:"ชนัฐญา",last:"นิตยาธารีกุล",nick:"จูน",gender:"F",role:null},
+{no:6,sid:"6911700060",prefix:"นางสาว",first:"ชวัลพัชร",last:"ภักตร์ขำ",nick:"เฟรม",gender:"F",role:null},
+{no:7,sid:"6911700078",prefix:"นาย",first:"ชานน",last:"เปรมทวี",nick:"นน",gender:"M",role:null},
+{no:8,sid:"6911700094",prefix:"นางสาว",first:"ฐิติกา",last:"วังกลาง",nick:"อุ๋ง",gender:"F",role:null},
+{no:9,sid:"6911700108",prefix:"นางสาว",first:"ฐิติพร",last:"ทีต่อ",nick:"พู่กัน",gender:"F",role:"หัวหน้ากิจกรรม"},
+{no:10,sid:"6911700116",prefix:"นางสาว",first:"ณัฐณิชา",last:"อาจภักดี",nick:"บิวตี้",gender:"F",role:null},
+{no:11,sid:"6911700124",prefix:"นางสาว",first:"ณัฐมน",last:"พงษ์วัน",nick:"เอิร์น",gender:"F",role:null},
+{no:12,sid:"6911700132",prefix:"นางสาว",first:"ดลชนก",last:"เรืองศรี",nick:"ใบบัว",gender:"F",role:null},
+{no:13,sid:"6911700141",prefix:"นางสาว",first:"ธัญชนก",last:"สีวาดมา",nick:"จันทร์เจ้า",gender:"F",role:null},
+{no:14,sid:"6911700159",prefix:"นางสาว",first:"นภัสวรรณ",last:"แก้วอุ่นเรือน",nick:"โฟกัส",gender:"F",role:null},
+{no:15,sid:"6911700167",prefix:"นางสาว",first:"นุชริน",last:"ใบธรรม",nick:"ปูเป้",gender:"F",role:"เหรัญญิก"},
+{no:16,sid:"6911700175",prefix:"นางสาว",first:"บัณฑิตาพร",last:"เจนดง",nick:"ก้อเตย",gender:"F",role:null},
+{no:17,sid:"6911700183",prefix:"นางสาว",first:"เบญญาภา",last:"ธุนาสูรย์",nick:"อ้อม",gender:"F",role:"หัวหน้าวิชาการ"},
+{no:18,sid:"6911700191",prefix:"นางสาว",first:"ปกเกศ",last:"แสงจันทร์",nick:"ขนมผิง",gender:"F",role:null},
+{no:19,sid:"6911700205",prefix:"นางสาว",first:"ปวริศา",last:"ไชยดำ",nick:"ลิสา",gender:"F",role:null},
+{no:20,sid:"6911700213",prefix:"นางสาว",first:"ปวิชญา",last:"เสาหิน",nick:"แสตมป์",gender:"F",role:null},
+{no:21,sid:"6911700221",prefix:"นางสาว",first:"ปาลิตา",last:"ศิริกุล",nick:"ผิงผิง",gender:"F",role:null},
+{no:22,sid:"6911700230",prefix:"นางสาว",first:"ปิ่นนภา",last:"น่าบัญฑิตย์",nick:"ใบเตย",gender:"F",role:null},
+{no:23,sid:"6911700248",prefix:"นางสาว",first:"พัชรพร",last:"เสมจันทร์",nick:"อ้อม",gender:"F",role:null},
+{no:24,sid:"6911700256",prefix:"นางสาว",first:"พัทธ์ศรัณย์",last:"วาทวัฒนศักดิ์",nick:"ครีม",gender:"F",role:null},
+{no:25,sid:"6911700264",prefix:"นางสาว",first:"พิชญธิดา",last:"คำพา",nick:"แสตมป์",gender:"F",role:"นิสิตผู้ประสานงานรายวิชา เกษตรศาสตร์สร้างศาสตร์แห่งแผ่นดิน"},
+{no:26,sid:"6911700272",prefix:"นางสาว",first:"ภคพร",last:"ปั้นทอง",nick:"ต้นข้าว",gender:"F",role:null},
+{no:27,sid:"6911700281",prefix:"นางสาว",first:"ภัทธิยา",last:"แสนคำ",nick:"หงส์หยก",gender:"F",role:null},
+{no:28,sid:"6911700299",prefix:"นางสาว",first:"ภารดี",last:"สาลีโภชน์",nick:"เวียนนา",gender:"F",role:null},
+{no:29,sid:"6911700302",prefix:"นางสาว",first:"วนารี",last:"คำนนท์",nick:"แพรวา",gender:"F",role:null},
+{no:30,sid:"6911700311",prefix:"นางสาว",first:"วรัญญา",last:"คำมงคุณ",nick:"มิรัน",gender:"F",role:null},
+{no:31,sid:"6911700337",prefix:"นางสาว",first:"ศิริภัสสร",last:"พวงศิริ",nick:"มิ่งขวัญ",gender:"F",role:null},
+{no:32,sid:"6911700345",prefix:"นางสาว",first:"ศิริรัตน์",last:"แพงพา",nick:"นะนุ่น",gender:"F",role:"นิสิตผู้ประสานงานรายวิชา จิตวิทยาพัฒนาการมนุษย์"},
+{no:33,sid:"6911700353",prefix:"นางสาว",first:"สาวิตรี",last:"มูลมานัส",nick:"บีม",gender:"F",role:null},
+{no:34,sid:"6911700361",prefix:"นาย",first:"สิทธิชัย",last:"สินสุวรรณ",nick:"น้ำ",gender:"M",role:"รองหัวหน้าชั้นปี"},
+{no:35,sid:"6911700370",prefix:"นางสาว",first:"สุธินี",last:"จินุศร",nick:"สปาเก็ตตี้",gender:"F",role:null},
+{no:36,sid:"6911700388",prefix:"นางสาว",first:"สุภารัตน์",last:"แก้วยก",nick:"นีนา",gender:"F",role:null},
+{no:37,sid:"6911700396",prefix:"นางสาว",first:"สุวิชาดา",last:"นูสันเทียะ",nick:"แพน",gender:"F",role:null},
+{no:38,sid:"6911700400",prefix:"นางสาว",first:"หทัยชนก",last:"ลิสอน",nick:"สตางค์",gender:"F",role:null},
+{no:39,sid:"6911700418",prefix:"นางสาว",first:"อานันท์ปภา",last:"ฟองมูล",nick:"นิว",gender:"F",role:null},
+{no:40,sid:"6911700434",prefix:"นางสาว",first:"จิราพร",last:"เทียมฐานะ",nick:"ออมมี่",gender:"F",role:"นิสิตผู้ประสานงานรายวิชา ชีวเคมี"},
+{no:41,sid:"6911700442",prefix:"นางสาว",first:"จีรารัศมิ์",last:"สินธวิชัย",nick:"ภูฟ้า",gender:"F",role:null},
+{no:42,sid:"6911700451",prefix:"นาย",first:"ฉลองขวัญ",last:"กนกวงศ์เสถียร",nick:"ปอกแปก",gender:"M",role:null},
+{no:43,sid:"6911700469",prefix:"นาย",first:"ฐิตินนท์",last:"กรดนวล",nick:"สอง",gender:"M",role:"หัวหน้าชั้นปี"},
+{no:44,sid:"6911700477",prefix:"นางสาว",first:"ณัชชา",last:"กอสิงหวัฒนา",nick:"ชา",gender:"F",role:null},
+{no:45,sid:"6911700485",prefix:"นางสาว",first:"ณัฐชยา",last:"พงศ์อนันต์",nick:"นัส",gender:"F",role:null},
+{no:46,sid:"6911700493",prefix:"นางสาว",first:"ณัฐชา",last:"กลีบบานเย็น",nick:"แกม",gender:"F",role:null},
+{no:47,sid:"6911700507",prefix:"นาย",first:"ธีรชัย",last:"รัตนศรีสมพร",nick:"ธีร์",gender:"M",role:"เหรัญญิก"},
+{no:48,sid:"6911700515",prefix:"นางสาว",first:"นิโลบล",last:"หนูเมือง",nick:"บัว",gender:"F",role:null},
+{no:49,sid:"6911700523",prefix:"นางสาว",first:"บุญญิตา",last:"เกิดโชค",nick:"แตงกวา",gender:"F",role:null},
+{no:50,sid:"6911700531",prefix:"นาย",first:"ปรเมศวร์",last:"รุ่งทิพยกุล",nick:"จีน",gender:"M",role:null},
+{no:51,sid:"6911700540",prefix:"นางสาว",first:"พรหมพร",last:"พรมแก้ว",nick:"น้ำหนึ่ง",gender:"F",role:null},
+{no:52,sid:"6911700558",prefix:"นางสาว",first:"พัชราภรณ์",last:"ฉัตรชยานนท์",nick:"นะโม",gender:"F",role:"นิสิตผู้ประสานงานรายวิชา โภชนาการสำหรับพยาบาล"},
+{no:53,sid:"6911700574",prefix:"นางสาว",first:"พิมฏ์สุภา",last:"กมลกิจจาลักษณ์",nick:"น้ำหอม",gender:"F",role:null},
+{no:54,sid:"6911700582",prefix:"นาย",first:"ภาคิน",last:"เปี่ยมศิริ",nick:"ภาคิน/คินนี่",gender:"M",role:"นิสิตผู้ประสานงานรายวิชา กายวิภาคศาสตร์"},
+{no:55,sid:"6911700604",prefix:"นางสาว",first:"รวิภา",last:"รอยลาภเจริญพร",nick:"น้ำปั่น",gender:"F",role:"นิสิตผู้ประสานงานรายวิชา รู้ทันไอที"},
+{no:56,sid:"6911700612",prefix:"นางสาว",first:"รวิวรรณ",last:"แซ่หวัง",nick:"ฝน",gender:"F",role:null},
+{no:57,sid:"6911700621",prefix:"นาย",first:"วรกร",last:"ลิขิตมั่นชัย",nick:"เซน",gender:"M",role:null},
+{no:58,sid:"6911700639",prefix:"นางสาว",first:"วัชรี",last:"ไชยชำนิ",nick:"ปาน",gender:"F",role:null},
+{no:59,sid:"6911700647",prefix:"นางสาว",first:"วันทน์ณภัทร",last:"ถิรธนวรรธน์",nick:"เอเชีย",gender:"F",role:null},
+{no:60,sid:"6911700655",prefix:"นาย",first:"สิทธิพงษ์",last:"กล่ำมาก",nick:"เบส",gender:"M",role:null},
+{no:61,sid:"6911700663",prefix:"นาย",first:"สิรวิชญ์",last:"จงกรด",nick:"ใจแอนท์",gender:"M",role:null},
+];
+
+const grid = document.getElementById('grid');
+const emptyState = document.getElementById('emptyState');
+const countLine = document.getElementById('countLine');
+const searchInput = document.getElementById('searchInput');
+const genderChips = document.querySelectorAll('#genderChips .chip');
+const roleChips = document.querySelectorAll('#roleChips .chip');
+
+let state = { query:'', gender:'all', role:'all' };
+
+function genderLabel(g){ return g==='M' ? 'ชาย' : 'หญิง'; }
+
+function matches(s){
+  const q = state.query.trim().toLowerCase();
+  if(q){
+    const hay = (s.prefix+s.first+s.last+s.nick+s.sid).toLowerCase();
+    if(!hay.includes(q)) return false;
+  }
+  if(state.gender !== 'all' && s.gender !== state.gender) return false;
+  if(state.role === 'has' && !s.role) return false;
+  if(state.role === 'none' && s.role) return false;
+  return true;
+}
+
+function render(){
+  const filtered = students.filter(matches);
+  grid.innerHTML = '';
+  if(filtered.length === 0){
+    emptyState.style.display = 'block';
+  } else {
+    emptyState.style.display = 'none';
+    filtered.forEach(s=>{
+      const card = document.createElement('div');
+      card.className = 'card' + (s.role ? ' has-role':'');
+      card.innerHTML = `
+        <span class="idx">#${String(s.no).padStart(2,'0')}</span>
+        <h3>${s.prefix} ${s.first} ${s.last}</h3>
+        <div class="nickname">"${s.nick}"</div>
+        <div class="meta">
+          <span class="sid">${s.sid}</span>
+          <span class="gender-dot ${s.gender}"></span>
+        </div>
+      `;
+      card.addEventListener('click', ()=>openModal(s));
+      grid.appendChild(card);
+    });
+  }
+  countLine.textContent = `พบ ${filtered.length} คน จากทั้งหมด ${students.length} คน`;
+}
+
+const overlay = document.getElementById('overlay');
+function openModal(s){
+  document.getElementById('mIdx').textContent = `#${String(s.no).padStart(2,'0')}`;
+  document.getElementById('mName').textContent = `${s.prefix} ${s.first} ${s.last}`;
+  document.getElementById('mNick').textContent = `ชื่อเล่น: ${s.nick}`;
+  document.getElementById('mSid').textContent = s.sid;
+  document.getElementById('mGender').textContent = genderLabel(s.gender);
+  const roleWrap = document.getElementById('mRoleWrap');
+  roleWrap.innerHTML = s.role ? `<div class="role-badge">🎖 ${s.role}</div>` : '';
+  overlay.classList.add('open');
+}
+document.getElementById('closeModal').addEventListener('click', ()=>overlay.classList.remove('open'));
+overlay.addEventListener('click', (e)=>{ if(e.target === overlay) overlay.classList.remove('open'); });
+document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') overlay.classList.remove('open'); });
+
+searchInput.addEventListener('input', (e)=>{ state.query = e.target.value; render(); });
+genderChips.forEach(chip=>{
+  chip.addEventListener('click', ()=>{
+    genderChips.forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');
+    state.gender = chip.dataset.gender;
+    render();
+  });
+});
+roleChips.forEach(chip=>{
+  chip.addEventListener('click', ()=>{
+    roleChips.forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');
+    state.role = chip.dataset.role;
+    render();
+  });
+});
+
+render();
+</script>
+</body>
+</html>
